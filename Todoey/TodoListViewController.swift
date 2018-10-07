@@ -10,8 +10,14 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     var itemArray = ["Find Mike","Buy Eggos","Destroy Demogorgon"]
+    let defaults = UserDefaults.standard
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let items = defaults.array(forKey: "Pehchana mujhe main wahi hun") as? [String]{
+            itemArray = items
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -37,7 +43,7 @@ class TodoListViewController: UITableViewController {
         
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .no
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
             
         }
         else{
@@ -58,6 +64,8 @@ class TodoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //what will happen once the user clicks the Add Item button on out UIAlert
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "Pehchana mujhe main wahi hun")
+            
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
